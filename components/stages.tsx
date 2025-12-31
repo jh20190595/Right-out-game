@@ -1,6 +1,6 @@
 // src/constants/stages.ts
 
-export type Difficulty = 'DAILY' | 'EASY' | 'NORMAL' | 'HARD' | 'EXTREME';
+export type Difficulty = '일일' | '쉬움' | '보통' | '어려움' | '극한';
 
 export interface Stage {
   id: number;
@@ -11,12 +11,12 @@ export interface Stage {
 
 export const STAGES: Record<Difficulty, Stage[]> = {
 
-  DAILY: [
+  '일일': [
     { id: 1, gridSize: 5, obstacles: [6, 8, 12, 16, 18], shuffleSteps: 20 },
   ],
 
 
-  EASY: Array.from({ length: 20 }, (_, i) => ({
+  '쉬움': Array.from({ length: 20 }, (_, i) => ({
     id: i + 1,
     gridSize: 3,
     obstacles: [],
@@ -24,7 +24,7 @@ export const STAGES: Record<Difficulty, Stage[]> = {
   })),
 
 
-  NORMAL: Array.from({ length: 20 }, (_, i) => ({
+  '보통': Array.from({ length: 20 }, (_, i) => ({
     id: i + 1,
     gridSize: 4,
     obstacles: i >= 10 ? [5, 10] : [],
@@ -32,7 +32,7 @@ export const STAGES: Record<Difficulty, Stage[]> = {
   })),
 
 
-  HARD: [
+  '어려움': [
     { id: 1, gridSize: 5, obstacles: [12], shuffleSteps: 12 },
     { id: 2, gridSize: 5, obstacles: [0, 4, 20, 24], shuffleSteps: 12 },
     { id: 3, gridSize: 5, obstacles: [6, 8, 16, 18], shuffleSteps: 14 },
@@ -52,7 +52,7 @@ export const STAGES: Record<Difficulty, Stage[]> = {
   ],
 
 
-  EXTREME: [
+  '극한': [
     { id: 1, gridSize: 5, obstacles: [0, 1, 2, 3, 4, 5, 9, 10, 14, 15, 19, 20, 21, 22, 23, 24], shuffleSteps: 12 }, // 중앙 3x3 남김
     { id: 2, gridSize: 5, obstacles: [0, 1, 3, 4, 5, 9, 15, 19, 20, 21, 23, 24], shuffleSteps: 14 }, // 십자가
     { id: 3, gridSize: 5, obstacles: [0, 4, 6, 7, 8, 11, 13, 16, 17, 18, 20, 24], shuffleSteps: 16 }, // X자

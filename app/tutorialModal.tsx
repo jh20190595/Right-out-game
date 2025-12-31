@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -11,12 +12,12 @@ const CELL_SIZE = (SCREEN_WIDTH - 100) / GRID_SIZE;
 export default function TutorialScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  
+
   const [step, setStep] = useState(1);
-  
+
   const [board, setBoard] = useState([
     false, false, false,
-    false, true,  false,
+    false, true, false,
     false, false, false
   ]);
 
@@ -24,32 +25,37 @@ export default function TutorialScreen() {
 
   const toggleLight = (index: number) => {
 
-    if (step === 3 && index !== 4) return; 
+    if (step === 3 && index !== 4) return;
 
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     const newBoard = [...board];
     const row = Math.floor(index / GRID_SIZE);
     const col = index % GRID_SIZE;
 
-    [[row, col], [row+1, col], [row-1, col], [row, col-1], [row, col+1]].forEach(([r, c]) => {
+    [[row, col], [row + 1, col], [row - 1, col], [row, col - 1], [row, col + 1]].forEach(([r, c]) => {
       if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE) {
         newBoard[r * GRID_SIZE + c] = !newBoard[r * GRID_SIZE + c];
       }
     });
     setBoard(newBoard);
 
-    if (step === 3) setStep(4); 
+    if (step === 3) setStep(4);
   };
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 50 }]}>
-      
-      {/* 가이드 메시지 영역 */}
+
+      <View style ={[styles.header, {top : insets.top+ 30 , left : insets.left + 30}]}>
+        <Pressable onPress={() => router.back()}>
+          <Ionicons name="chevron-back" size={30} color="#888" />
+        </Pressable>
+      </View>
+
       <View style={styles.guideContainer}>
         {step === 1 && <Text style={styles.title}>💡 라이트아웃 소개</Text>}
         {step === 2 && <Text style={styles.title}>📜 게임 규칙</Text>}
         {step === 3 && <Text style={styles.title}>👆 직접 해보기</Text>}
-        {step === 4 && <Text style={styles.title}>🎉 {isCleared ?  '훌륭합니다!' : '거의 다 됐어요!'}</Text>}
+        {step === 4 && <Text style={styles.title}>🎉 {isCleared ? '훌륭합니다!' : '거의 다 됐어요!'}</Text>}
 
         <Text style={styles.desc}>
           {step === 1 && "모든 전등을 끄는 클래식 퍼즐 게임입니다.\n두뇌를 풀가동해 보세요!"}
@@ -59,8 +65,7 @@ export default function TutorialScreen() {
         </Text>
       </View>
 
-      {/* 게임 보드 영역 (3, 4단계에서만 강조) */}
-      <View style={[styles.board,(step < 3) && { opacity: 0.3 }]}>
+      <View style={[styles.board, (step < 3) && { opacity: 0.3 }]}>
         {board.map((cell, idx) => (
           <Pressable
             key={idx}
@@ -68,16 +73,16 @@ export default function TutorialScreen() {
             style={[
               styles.cell,
               { backgroundColor: cell ? '#FFD700' : '#333' },
-              step === 3 && idx === 4 && styles.highlightCell // 3단계에서 가운데 강조
+              step === 3 && idx === 4 && styles.highlightCell
             ]}
           />
         ))}
       </View>
 
-      {/* 하단 컨트롤 버튼 */}
+
       <View style={styles.footer}>
         {step < 3 ? (
-          <Pressable style={styles.button} onPress={() => {setStep(step + 1); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}>
+          <Pressable style={styles.button} onPress={() => { setStep(step + 1); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); }}>
             <Text style={styles.buttonText}>다음 단계</Text>
           </Pressable>
         ) : isCleared ? (
@@ -92,6 +97,7 @@ export default function TutorialScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#1A1A1A', alignItems: 'center', paddingHorizontal: 20 },
+  header : { position : 'absolute'},
   guideContainer: { height: 150, alignItems: 'center', justifyContent: 'center' },
   title: { fontSize: 26, fontWeight: '900', color: '#FFF', marginBottom: 15 },
   desc: { fontSize: 16, color: '#BBB', textAlign: 'center', lineHeight: 24 },
