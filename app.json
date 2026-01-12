@@ -4,7 +4,7 @@
     "slug": "rumo-game",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Rumoicon.jpg",
+    "icon": "./assets/images/Icon.png",
     "scheme": "rumo",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -17,7 +17,7 @@
       "package": "com.jh.rumo",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/Rumoicon.jpg",
+        "foregroundImage": "./assets/images/Icon.png",
         "backgroundColor": "#F0F5FA"
       },
       "edgeToEdgeEnabled": true,
@@ -28,7 +28,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/Rumoicon.jpg",
+          "image": "./assets/images/Icon.png",
           "imageWidth": 200,
           "resizeMode": "contain"
         }
@@ -38,7 +38,8 @@
         {
           "androidAppId": "ca-app-pub-6716098438139577~7661521020"
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
