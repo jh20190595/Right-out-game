@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     headerBg: { position: 'absolute', top: 0, left: 0, right: 0, borderBottomLeftRadius: 40, borderBottomRightRadius: 40 },
     header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 15, paddingBottom: 20, zIndex: 10 },
     backButton: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
-    titleContainer: { alignItems: 'center' },
+    titleContainer: { alignItems: 'center', marginTop : 30 },
     headerTitle: { fontSize: 18, fontWeight: '800' },
     headerSubTitle: { fontSize: 12, color: '#888', marginTop: 2 },
     calendarContainer: { marginTop: 100, paddingHorizontal: 25, flex: 1 },

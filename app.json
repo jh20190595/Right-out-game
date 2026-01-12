@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Rumo",
+    "name": "루모",
     "slug": "rumo-game",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/RumoIcon.png",
+    "icon": "./assets/images/Rumoicon.jpg",
     "scheme": "rumo",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -17,7 +17,7 @@
       "package": "com.jh.rumo",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/androidIcon.png",
+        "foregroundImage": "./assets/images/Rumoicon.jpg",
         "backgroundColor": "#F0F5FA"
       },
       "edgeToEdgeEnabled": true,
@@ -28,16 +28,27 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splashIcon.png",
+          "image": "./assets/images/Rumoicon.jpg",
           "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#F0F5FA"
+          "resizeMode": "contain"
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-6716098438139577~7661521020"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4e012c18-3876-4020-af12-d230980fbf68"
+      }
     }
   }
 }

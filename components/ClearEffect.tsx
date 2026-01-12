@@ -1,6 +1,6 @@
-import React from 'react';
+import LottieView from 'lottie-react-native';
+import React, { useEffect, useRef } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import ConfettiCannon from 'react-native-confetti-cannon';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -9,10 +9,31 @@ type Props = {
 };
 
 export default function ClearEffect({ visible }: Props) {
-  if (!visible) return null;
+
+
+    const animationRef = useRef<LottieView>(null);
+    
+    useEffect(() => {
+        if(visible) {
+            animationRef.current?.play();
+        } else {
+            animationRef.current?.reset();
+        }
+    },[visible])
+
+    if(!visible) return null;
 
   return (
-    <View style={StyleSheet.absoluteFill} pointerEvents="none">
+    <View style={styles.container} pointerEvents='none'>
+        <LottieView
+            ref={animationRef}
+            source={require('../assets/animations/confetti.json')}
+            autoPlay={false}
+            loop = {false}
+            style={styles.lottie}
+        />
+    </View>
+    /*<View style={[StyleSheet.absoluteFill,{zIndex : 999}]} pointerEvents="none">
       <ConfettiCannon
         count={200}           // 폭죽 가루 개수
         origin={{ x: SCREEN_WIDTH / 2, y: -20 }} // 화면 상단 중앙에서 발사
@@ -22,6 +43,19 @@ export default function ClearEffect({ visible }: Props) {
         explosionSpeed={350}  // 팡 터지는 속도
         colors={['#FFD700', '#FF6B6B', '#51CF66', '#339AF0', '#B197FC']} // 테마 색상
       />
-    </View>
+    </View>*/
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  lottie: {
+    width: '100%',
+    height: '100%',
+  },
+});

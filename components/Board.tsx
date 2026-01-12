@@ -5,10 +5,12 @@ import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ClearEffect from './ClearEffect';
 import { STAGES } from './Stages';
 import { WinModal } from './WinModal';
+
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const MARGIN = 2;
@@ -23,7 +25,21 @@ type Props = {
     onWin: () => void;
 };
 
+const adUnitId = __DEV__ 
+  ? TestIds.INTERSTITIAL 
+  : 'ca-app-pub-6716098438139577/8886972787';
+
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+    requestNonPersonalizedAdsOnly: true,
+});
+ 
+
+let clearCount = 0;
+
+
 export default function Board({ id, type, onWin }: Props) {
+    const [adLoaded, setAdLoaded] = useState(false);
+    const [onAdClosedAction, setOnAdClosedAction] = useState<'list' | 'next' | null>(null)
     const insets = useSafeAreaInsets();
     const router = useRouter();
 
@@ -35,19 +51,72 @@ export default function Board({ id, type, onWin }: Props) {
 
     const isDaily = type === '일일';
 
-    // 1. 스테이지 설정 수정 (일일 미션 5x5 -> 4x4로 변경)
+    useEffect(() => {
+        const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+            setAdLoaded(true);
+        });
+        const unsubscribeClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+            setAdLoaded(false);
+            interstitial.load();
+
+            if (onAdClosedAction === 'next') {
+                onWin();
+            } else {
+                router.push(`/category/${type}`);
+            }
+
+            setOnAdClosedAction(null);
+        });
+
+        interstitial.load();
+
+        return () => {
+            unsubscribeLoaded();
+            unsubscribeClosed();
+        };
+    }, [onAdClosedAction, type]); 
+
+    const handleNextWithCount = async () => {
+        clearCount++;
+        if (clearCount % 3 === 0) {
+            setOnAdClosedAction('next')
+            try {
+                await interstitial.show();
+            } catch (e) {
+                onWin();
+            }
+        } else {
+            onWin();
+        }
+    };
+
+    const handleExitWithAd = async () => {
+        clearCount++;
+        setOnAdClosedAction('list')
+        if (clearCount % 3 === 0) {
+            try {
+                await interstitial.show();
+            } catch (e) {
+                router.push(`/category/${type}`);
+            }
+        } else {
+            router.push(`/category/${type}`);
+        }
+    };
+
     const stage = isDaily
         ? {
-            gridSize: 4, // 👈 4x4로 변경하여 난이도 조절
+            gridSize: 4,
             obstacles: [],
-            shuffleSteps: 12 + (parseInt(id.replace('daily-', '')) % 8) // 👈 셔플 횟수도 적절히 하향
+            shuffleSteps: 12 + (parseInt(id.replace('daily-', '')) % 8)
         }
         : STAGES[type as keyof typeof STAGES]?.find((s) => s.id.toString() === id);
 
     const GRID_SIZE = stage?.gridSize || 3;
     const OBSTACLES = stage?.obstacles || [];
     const SHUFFLE_STEPS = stage?.shuffleSteps || 10;
-    
+    const baseSteps = SHUFFLE_STEPS + 5;
+
     const CELL_SIZE = (SCREEN_WIDTH - 100) / GRID_SIZE - (MARGIN * 2);
 
     const [board, setBoard] = useState<boolean[]>(Array(GRID_SIZE * GRID_SIZE).fill(false));
@@ -109,12 +178,10 @@ export default function Board({ id, type, onWin }: Props) {
             }
         });
     };
-    const calculateStars = () => {
 
-        const baseSteps = SHUFFLE_STEPS + 5; 
-        
+    const calculateStars = () => {
         if (moveCount <= baseSteps) return 3;
-        if (moveCount <= baseSteps * 2.0) return 2; 
+        if (moveCount <= baseSteps * 2.0) return 2;
         return 1;
     };
 
@@ -134,12 +201,17 @@ export default function Board({ id, type, onWin }: Props) {
             if (newBoard.every(cell => !cell)) {
                 handleHaptic('success');
                 setIsWin(true);
-                const starCount = calculateStars();
-                saveResult(type, id, starCount);
             }
             return newBoard;
         });
     };
+
+    useEffect(() => {
+        if (isWin) {
+            const starCount = calculateStars();
+            saveResult(type, id, starCount);
+        }
+    }, [isWin])
 
     const displayTitle = isDaily
         ? `${new Date().getMonth() + 1}월 ${id.replace('daily-', '')}일`
@@ -150,7 +222,7 @@ export default function Board({ id, type, onWin }: Props) {
     return (
         <View style={[styles.container, { paddingTop: insets.top }]}>
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()} style={styles.backButton}>
+                <Pressable onPress={() => router.push(`/category/${type}`)} style={styles.backButton}>
                     <Ionicons name="chevron-back" size={28} color="#333" />
                 </Pressable>
                 <Pressable onPress={() => router.push('/setting')}>
@@ -195,12 +267,12 @@ export default function Board({ id, type, onWin }: Props) {
 
             {isWin && (
                 <>
-                    <ClearEffect visible={isWin} />
                     <WinModal
                         stars={calculateStars()}
-                        onExit={() => router.push(`/category/${type}`)}
-                        onNext={onWin}
+                        onExit={handleExitWithAd}
+                        onNext={handleNextWithCount}
                     />
+                    <ClearEffect visible={isWin} />
                 </>
             )}
         </View>
@@ -214,7 +286,7 @@ const styles = StyleSheet.create({
     titleContent: { alignItems: 'center', marginTop: 10 },
     stageType: { fontSize: 13, fontWeight: '700', color: '#94A3B8', letterSpacing: 1.5, marginBottom: 4 },
     stageTitle: { fontSize: 26, fontWeight: '900', color: '#1E293B' },
-    moveBadge: { marginTop: 10, backgroundColor: '#E2E8F0', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12 },
+    moveBadge: { marginTop: 20, backgroundColor: '#E2E8F0', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12 },
     moveText: { fontSize: 14, fontWeight: '700', color: '#64748B' },
     boardWrapper: { flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 40 },
     board: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', backgroundColor: '#CBD5E1', padding: 12, borderRadius: 32, shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 20, elevation: 10 },

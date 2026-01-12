@@ -12,8 +12,11 @@ type WinModalProps = {
 export const WinModal = ({ stars, onExit, onNext, isLast }: WinModalProps) => {
 
   const starAnim1 = useRef(new Animated.Value(0)).current;
-  const starAnim2 = useRef(new useRef(new Animated.Value(0))).current;
-  const anims = [useRef(new Animated.Value(0)).current, useRef(new Animated.Value(0)).current, useRef(new Animated.Value(0)).current];
+  const anims = [
+  useRef(new Animated.Value(0)).current,
+  useRef(new Animated.Value(0)).current,
+  useRef(new Animated.Value(0)).current,
+];
 
   useEffect(() => {
     const animations = anims.map((anim, index) => {
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.6)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
+    zIndex: 900,
   },
   card: {
     width: '85%',
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
   exitButtonText: {
     color: '#495057',
     fontWeight: '700',
-    fontSize: 17,
+    fontSize: 13,
   },
   nextButton: {
     backgroundColor: '#333',
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
   nextButtonText: {
     color: '#FFF',
     fontWeight: '700',
-    fontSize: 17,
+    fontSize: 13,
   },
 });
 
