@@ -1,48 +1,19 @@
-# 라이트 아웃 게임 👋
+# 💡 Rumo Game
 
-## Get started
+> **모든 불을 끄는 클래식 로직 퍼즐**
+> 깔끔한 UI와 애니메이션으로 즐기는 라이트 아웃 게임입니다.
 
-1. Install dependencies
+### ✨ 주요 특징
+* **간단한 규칙**: 터치한 타일과 인접한 타일의 상태가 반전됩니다.
+* **깔끔한 디자인**: Lottie 애니메이션을 적용한 모던한 UI.
+* **최적화**: Expo SDK 54 기반 안드로이드 완벽 대응.
 
-   ```bash
-   npm install
-   ```
+### 🛠 기술 스택
+* **React Native / Expo** (Router, SDK 54)
+* **Lottie** (애니메이션)
+* **EAS** (안드로이드 배포)
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+### 🚀 실행 방법
 ```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+npm install
+npx expo start
