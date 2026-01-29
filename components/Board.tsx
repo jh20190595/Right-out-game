@@ -8,7 +8,7 @@ import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ClearEffect from './ClearEffect';
-import { STAGES } from './Stages';
+import { STAGES } from './stages';
 import { WinModal } from './WinModal';
 
 
@@ -28,7 +28,7 @@ type Props = {
 const adUnitId = __DEV__ 
   ? TestIds.INTERSTITIAL 
   : 'ca-app-pub-6716098438139577/8886972787';
-
+2
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
     requestNonPersonalizedAdsOnly: true,
 });

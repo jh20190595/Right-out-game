@@ -1,4 +1,4 @@
-import { Difficulty, STAGES } from "@/components/Stages";
+import { Difficulty, STAGES } from "@/components/stages";
 
 const CATEGORY_COLORS: Record<string, string> = {
   '일일': '#FF6B6B',

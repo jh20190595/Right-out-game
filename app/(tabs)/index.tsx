@@ -1,5 +1,5 @@
 import InfoModal from '@/components/RumoInfo';
-import { Difficulty, STAGES } from '@/components/Stages';
+import { Difficulty, STAGES } from '@/components/stages';
 import { useGameStore } from '@/src/store/useGameStore';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';

@@ -15,13 +15,22 @@
     },
     "android": {
       "package": "com.jh.rumo",
-      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/Icon.png",
         "backgroundColor": "#F0F5FA"
       },
+      "blockedPermissions": [
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ],
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "INTERNET",
+        "com.google.android.gms.permission.AD_ID"
+      ]
     },
     "plugins": [
       "expo-router",
