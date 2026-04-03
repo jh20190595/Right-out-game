@@ -16,7 +16,7 @@
 
 | 게임 화면 | 클리어 | 튜토리얼 |
 |:---:|:---:|:---:|
-| <img src="assets/readme2.webp" width="180" /> | <img src="assets/readme3.png" width="180" /> | <img src="assets/readme4.png" width="180" /> |
+| <img src="assets/readme3.webp" width="180" /> | <img src="assets/readme4.png" width="180" /> | <img src="assets/readme1.png" width="180" /> |
 
 ---
 
