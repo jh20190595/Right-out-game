@@ -1,5 +1,11 @@
 # 💡 Rumo Game
 
+### 플레이 스토어 바로가기
+
+<a href="https://play.google.com/store/apps/details?id=com.jh.rumo&hl=ko" target="_blank">
+  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/ko_badge_web_generic.png" alt="Google Play에서 다운로드" width="200"/>
+</a>
+
  **모든 불을 끄는 클래식 로직 퍼즐**
  깔끔한 UI와 애니메이션으로 즐기는 라이트 아웃 게임입니다.
 
